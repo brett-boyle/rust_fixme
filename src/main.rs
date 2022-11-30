@@ -1,4 +1,4 @@
-use std::fmt::{self, Formatter, Display};
+use std::{fmt::{self, Formatter, Display}, any::Any};
 
 /* Demonstrates printing of a user defined struct using println! macro.*/
 
@@ -22,11 +22,16 @@ impl Display for City {
     }
 }
 
-#[derive(Debug)]
 struct Color {
-    red: u8,
+    red: u8, //assigning u8 and naming them as different colors
     green: u8,
     blue: u8,
+}
+
+impl Display for Color { //this uses write! to write out the different u8 colors and format them
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "red: {}, green: {}, blue: {}", self.red, self.green, self.blue) //this is how they are formatted, with red: {} being paired with self.red, and etc
+    }
 }
 
 fn main() {
@@ -44,6 +49,6 @@ fn main() {
         Color { red: 0, green: 0, blue: 0 },
     ].iter() {
         // Hint : Fix the code so you can print it using {}
-        println!("{:?}", *color);
+        println!("{}", *color); //After implementing the write!, we are able to replace the {:?} and replace it with {}, so it is in display rather than debug.
     }
 }
